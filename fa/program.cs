@@ -144,10 +144,48 @@ public static State a = new State()
 
     public class FA3
     {
-        public bool? Run(IEnumerable<char> s)
-        {
-            return false;
-        }
+ public static State a = new State()
+      {
+          Name = "a",
+          IsAcceptState = false,
+          Transitions = new Dictionary<char, State>()
+      };
+      public static State b = new State()
+      {
+          Name = "b",
+          IsAcceptState = false,
+          Transitions = new Dictionary<char, State>()
+      };
+      public static State c = new State()
+      {
+          Name = "c",
+          IsAcceptState = true,
+          Transitions = new Dictionary<char, State>()
+      };
+
+      State InitialState = a;
+
+      public FA3()
+      {
+          a.Transitions['0'] = a;
+          a.Transitions['1'] = b;
+          b.Transitions['0'] = a;
+          b.Transitions['1'] = c;
+          c.Transitions['0'] = c;
+          c.Transitions['1'] = c;
+      }
+
+      public bool? Run(IEnumerable<char> s)
+      {
+          State current = InitialState;
+          foreach (var c in s)
+          {
+              current = current.Transitions[c];
+              if (current == null)
+                  return null;
+          }
+          return current.IsAcceptState;
+      }
     }
 
     class Program
