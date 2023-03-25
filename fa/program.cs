@@ -129,7 +129,6 @@ namespace fans
         }
         public bool? Run(IEnumerable<char> s)
         {
-            return false;
             State current = InitialState;
             foreach (var c in s)
             {
